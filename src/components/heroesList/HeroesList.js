@@ -35,6 +35,7 @@ const HeroesList = () => {
         .then((data) => console.log(data, "deleted"))
         .then(dispatch(heroDeleted(id)))
         .catch((err) => console.log(err));
+      // eslint-disable-next-line
     },
     [request]
   );
@@ -57,7 +58,7 @@ const HeroesList = () => {
     return arr.map(({ id, ...props }) => {
       return (
         <CSSTransition key={id} timeout={500} classNames={"hero"}>
-          <HeroesListItem key={id} {...props} />
+          <HeroesListItem {...props} onDelete={() => onDelete(id)} />
         </CSSTransition>
       );
     });
