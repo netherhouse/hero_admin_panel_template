@@ -1,7 +1,7 @@
 import { useHttp } from "../../hooks/http.hook";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import {
   heroesFetching,
@@ -55,12 +55,16 @@ const HeroesList = () => {
     }
 
     return arr.map(({ id, ...props }) => {
-      return <HeroesListItem key={id} {...props} />;
+      return (
+        <CSSTransition key={id} timeout={500} classNames={"hero"}>
+          <HeroesListItem key={id} {...props} />
+        </CSSTransition>
+      );
     });
   };
 
   const elements = renderHeroesList(heroes);
-  return <ul>{elements}</ul>;
+  return <TransitionGroup component="ul">{elements}</TransitionGroup>;
 };
 
 export default HeroesList;
