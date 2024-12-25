@@ -12,42 +12,64 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-import {heroCreated} from "../../actions";
+import { heroCreated } from "../../actions";
 
 const HeroesAddForm = () => {
-const [heroName, setHeroName] = useState("");
-const [heroDescr, setHeroDescr] = useState("");
-const [heroElement, setHeroElement] = useState("");
+  const [heroName, setHeroName] = useState("");
+  const [heroDescr, setHeroDescr] = useState("");
+  const [heroElement, setHeroElement] = useState("");
 
-const {filter, filtersLoadingStatus} = useSelector((state) => state);
-const dispatch = useDispatch();
-const {request} = useHttp();
+  const { filter, filtersLoadingStatus } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { request } = useHttp();
 
-const onSubmitHandler = (e) => {
-  e.prevetDefault();
-  // Генерация id через библиотеку uuid 
-  const  newHero ={
-    id: uuidv4(),
-    name: heroName,
-    description: heroDescr,
-    element: heroElement,
-  }
-// Отправляем данные на сервер в формате JSON
-request("http://localhost:3001/heroes", "POST", newHero)
-.then(res=> { console.log(res, "Успешная отправка")})
-.then(dispatch(heroCreated(newHero)))
-.catch(err=> console.log(err))
+  const onSubmitHandler = (e) => {
+    e.prevetDefault();
 
+    // Генерация id через библиотеку uuid
+    const newHero = {
+      id: uuidv4(),
+      name: heroName,
+      description: heroDescr,
+      element: heroElement,
+    };
 
+    // Отправляем данные на сервер в формате JSON
+    request("http://localhost:3001/heroes", "POST", newHero)
+      .then((res) => {
+        console.log(res, "Успешная отправка");
+      })
+      .then(dispatch(heroCreated(newHero)))
+      .catch((err) => console.log(err));
 
+    setHeroName("");
+    setHeroDescr("");
+    setHeroElement("");
+  };
+  const renderFilters = (filters, status) => {
+    if (status === "loading") {
+      return <option>Загрузка элементов</option>;
+    } else if (status === "error") {
+      return <option>Ошибка загрузки</option>;
+    }
 
+    // Если фильтры есть, то рендерим их
+    if (filters && filters.length > 0) {
+      return filters.map(({ name, label }) => {
+        // Один из фильтров нам тут не нужен
+        // eslint-disable-next-line
+        if (name === "all") return;
 
-
-
-
-
+        return (
+          <option key={name} value={name}>
+            {label}
+          </option>
+        );
+      });
+    }
+  };
   return (
-    <form className="border p-4 shadow-lg rounded">
+    <form className="border p-4 shadow-lg rounded" onSubmit={onSubmitHandler}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label fs-4">
           Имя нового героя
@@ -59,6 +81,7 @@ request("http://localhost:3001/heroes", "POST", newHero)
           className="form-control"
           id="name"
           placeholder="Как меня зовут?"
+          value={heroName}
         />
       </div>
 
@@ -73,6 +96,7 @@ request("http://localhost:3001/heroes", "POST", newHero)
           id="text"
           placeholder="Что я умею?"
           style={{ height: "130px" }}
+          value={heroDescr}
         />
       </div>
 
@@ -80,12 +104,15 @@ request("http://localhost:3001/heroes", "POST", newHero)
         <label htmlFor="element" className="form-label">
           Выбрать элемент героя
         </label>
-        <select required className="form-select" id="element" name="element">
+        <select
+          required
+          className="form-select"
+          id="element"
+          name="element"
+          value={heroElement}
+        >
           <option>Я владею элементом...</option>
-          <option value="fire">Огонь</option>
-          <option value="water">Вода</option>
-          <option value="wind">Ветер</option>
-          <option value="earth">Земля</option>
+          {renderFilters(filter, filtersLoadingStatus)}
         </select>
       </div>
 
