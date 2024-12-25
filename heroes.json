@@ -19,10 +19,10 @@
       "element": "water"
     },
     {
-      "id": "2beb8af9-faef-4c0e-afd5-50ec5460537c",
-      "name": "иван",
-      "description": "прыгать",
-      "element": "wind"
+      "id": 7,
+      "name": "Защитник лесов",
+      "description": "Использует силу земли, чтобы защитить природу.",
+      "element": "earth"
     }
   ],
   "filters": [
