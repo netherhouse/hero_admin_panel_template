@@ -57,12 +57,14 @@ const reducer = (state = initialState, action) => {
             : state.heroes.filter((item) => item.class === action.payload),
       };
     case "HERO_DELETED":
+      // новый массив
       const newHeroList = state.heroes.filter(
         (item) => item.id !== action.payload
       );
       return {
         ...state,
         heroes: newHeroList,
+        // фильтруем массив героев в зависимости от выбранного фильтра
         filteredHeroues:
           state.activeFilter === "all"
             ? newHeroList
