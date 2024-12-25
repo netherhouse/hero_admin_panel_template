@@ -7,8 +7,45 @@
 // Дополнительно:
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
+import { useHttp } from "../../hooks/http.hook";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+
+import {heroCreated} from "../../actions";
 
 const HeroesAddForm = () => {
+const [heroName, setHeroName] = useState("");
+const [heroDescr, setHeroDescr] = useState("");
+const [heroElement, setHeroElement] = useState("");
+
+const {filter, filtersLoadingStatus} = useSelector((state) => state);
+const dispatch = useDispatch();
+const {request} = useHttp();
+
+const onSubmitHandler = (e) => {
+  e.prevetDefault();
+  // Генерация id через библиотеку uuid 
+  const  newHero ={
+    id: uuidv4(),
+    name: heroName,
+    description: heroDescr,
+    element: heroElement,
+  }
+// Отправляем данные на сервер в формате JSON
+request("http://localhost:3001/heroes", "POST", newHero)
+.then(res=> { console.log(res, "Успешная отправка")})
+.then(dispatch(heroCreated(newHero)))
+.catch(err=> console.log(err))
+
+
+
+
+
+
+
+
+
   return (
     <form className="border p-4 shadow-lg rounded">
       <div className="mb-3">
