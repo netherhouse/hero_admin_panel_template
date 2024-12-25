@@ -1,10 +1,10 @@
 const initialState = {
   heroes: [],
   heroesLoadingStatus: "idle",
-  filteredHeroues: [],
   filters: [],
   filtersLoadingStatus: "idle",
   activeFilter: "all",
+  filteredHeroes: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,11 +18,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         heroes: action.payload,
-        filteredHeroues:
+        // ЭТО МОЖНО СДЕЛАТЬ И ПО ДРУГОМУ
+        // Я специально показываю вариант с действиями тут, но более правильный вариант
+        // будет показан в следующем уроке
+        filteredHeroes:
           state.activeFilter === "all"
             ? action.payload
             : action.payload.filter(
-                (item) => item.class === state.activeFilter
+                (item) => item.element === state.activeFilter
               ),
         heroesLoadingStatus: "idle",
       };
@@ -51,24 +54,40 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         activeFilter: action.payload,
-        filteredHeroues:
+        filteredHeroes:
           action.payload === "all"
             ? state.heroes
-            : state.heroes.filter((item) => item.class === action.payload),
+            : state.heroes.filter((item) => item.element === action.payload),
+      };
+    // Самая сложная часть - это показывать новые элементы по фильтрам
+    // при создании или удалении
+    case "HERO_CREATED":
+      // Формируем новый массив
+      let newCreatedHeroList = [...state.heroes, action.payload];
+      return {
+        ...state,
+        heroes: newCreatedHeroList,
+        // Фильтруем новые данные по фильтру, который сейчас применяется
+        filteredHeroes:
+          state.activeFilter === "all"
+            ? newCreatedHeroList
+            : newCreatedHeroList.filter(
+                (item) => item.element === state.activeFilter
+              ),
       };
     case "HERO_DELETED":
-      // новый массив
+      // Формируем новый массив
       const newHeroList = state.heroes.filter(
         (item) => item.id !== action.payload
       );
       return {
         ...state,
         heroes: newHeroList,
-        // фильтруем массив героев в зависимости от выбранного фильтра
-        filteredHeroues:
+        // Фильтруем новые данные по фильтру, который сейчас применяется
+        filteredHeroes:
           state.activeFilter === "all"
             ? newHeroList
-            : newHeroList.filter((item) => item.class === state.activeFilter),
+            : newHeroList.filter((item) => item.element === state.activeFilter),
       };
     default:
       return state;

@@ -19,12 +19,12 @@ const HeroesAddForm = () => {
   const [heroDescr, setHeroDescr] = useState("");
   const [heroElement, setHeroElement] = useState("");
 
-  const { filter, filtersLoadingStatus } = useSelector((state) => state);
+  const { filters, filtersLoadingStatus } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { request } = useHttp();
 
   const onSubmitHandler = (e) => {
-    e.prevetDefault();
+    e.preventDefault();
 
     // Генерация id через библиотеку uuid
     const newHero = {
@@ -36,21 +36,33 @@ const HeroesAddForm = () => {
 
     // Отправляем данные на сервер в формате JSON
     request("http://localhost:3001/heroes", "POST", JSON.stringify(newHero))
-      .then((res) => {
-        console.log(res, "Успешная отправка");
-      })
+      .then((res) => console.log(res, "Отправка успешна"))
       .then(dispatch(heroCreated(newHero)))
       .catch((err) => console.log(err));
 
+    // Очищаем форму после отправки
     setHeroName("");
     setHeroDescr("");
     setHeroElement("");
   };
+
   const renderFilters = (filters, status) => {
     if (status === "loading") {
       return <option>Загрузка элементов</option>;
     } else if (status === "error") {
       return <option>Ошибка загрузки</option>;
+    }
+    if (filters && filters.length > 0) {
+      return filters.map(({ name, label }) => {
+        // eslint-disable-next-line
+        if (name === "all") return;
+
+        return (
+          <option key={name} value={name}>
+            {label}
+          </option>
+        );
+      });
     }
   };
   return (
@@ -67,6 +79,7 @@ const HeroesAddForm = () => {
           id="name"
           placeholder="Как меня зовут?"
           value={heroName}
+          onChange={(e) => setHeroName(e.target.value)}
         />
       </div>
 
@@ -82,6 +95,7 @@ const HeroesAddForm = () => {
           placeholder="Что я умею?"
           style={{ height: "130px" }}
           value={heroDescr}
+          onChange={(e) => setHeroDescr(e.target.value)}
         />
       </div>
 
@@ -95,9 +109,10 @@ const HeroesAddForm = () => {
           id="element"
           name="element"
           value={heroElement}
+          onChange={(e) => setHeroElement(e.target.value)}
         >
-          <option>Я владею элементом...</option>
-          {renderFilters(filter, filtersLoadingStatus)}
+          <option value="">Я владею элементом...</option>
+          {renderFilters(filters, filtersLoadingStatus)}
         </select>
       </div>
 

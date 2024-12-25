@@ -17,6 +17,7 @@ const HeroesFilters = () => {
   );
   const dispatch = useDispatch();
   const { request } = useHttp();
+
   useEffect(() => {
     dispatch(filterFetching());
     request("http://localhost:3001/filters")
@@ -58,6 +59,7 @@ const HeroesFilters = () => {
   };
 
   const elements = renderFilters(filters);
+
   return (
     <div className="card shadow-lg mt-4">
       <div className="card-body">
