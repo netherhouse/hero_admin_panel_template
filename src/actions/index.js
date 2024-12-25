@@ -42,6 +42,12 @@ export const activeFilterChanged = (filters) => {
   };
 };
 
+export const heroCreated = (hero) => {
+  return {
+    type: "HERO_CREATED",
+    payload: hero,
+  };
+};
 export const heroDeleted = (id) => {
   return {
     type: "HERO_DELETED",

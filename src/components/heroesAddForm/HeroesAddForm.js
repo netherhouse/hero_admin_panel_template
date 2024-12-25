@@ -35,7 +35,7 @@ const HeroesAddForm = () => {
     };
 
     // Отправляем данные на сервер в формате JSON
-    request("http://localhost:3001/heroes", "POST", newHero)
+    request("http://localhost:3001/heroes", "POST", JSON.stringify(newHero))
       .then((res) => {
         console.log(res, "Успешная отправка");
       })
@@ -51,21 +51,6 @@ const HeroesAddForm = () => {
       return <option>Загрузка элементов</option>;
     } else if (status === "error") {
       return <option>Ошибка загрузки</option>;
-    }
-
-    // Если фильтры есть, то рендерим их
-    if (filters && filters.length > 0) {
-      return filters.map(({ name, label }) => {
-        // Один из фильтров нам тут не нужен
-        // eslint-disable-next-line
-        if (name === "all") return;
-
-        return (
-          <option key={name} value={name}>
-            {label}
-          </option>
-        );
-      });
     }
   };
   return (

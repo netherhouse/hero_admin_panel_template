@@ -38,7 +38,7 @@ const HeroesList = () => {
         .catch((err) => console.log(err));
       // eslint-disable-next-line
     },
-    [request]
+    [request, dispatch]
   );
 
   if (heroesLoadingStatus === "loading") {
