@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from "redux";
-import heroes from "../data/heroes";
-import filters from "../data/filters";
+import heroes from "../reducers/heroes";
+import filters from "../reducers/filters";
 
 const store = createStore(
   combineReducers({ heroes: heroes, filters: filters }),

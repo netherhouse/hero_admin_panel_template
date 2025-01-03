@@ -1,5 +1,5 @@
 import { useHttp } from "../../hooks/http.hook";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, act } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -17,9 +17,11 @@ import "./heroesList.scss";
 const HeroesList = (props) => {
   const filteredHeroes = useSelector((state) => {
     if (state.activeFilter === "all") {
-      return state.heroes;
+      return state.heroes.heroes;
     } else {
-      return state.heroes.filter((item) => item.element === state.activeFilter);
+      return state.heroes.heroes.filter(
+        (item) => item.element === state.filters.activeFilter
+      );
     }
   });
   const heroesLoadingStatus = useSelector((state) => state.heroesLoadingStatus);
