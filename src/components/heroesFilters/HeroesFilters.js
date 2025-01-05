@@ -38,9 +38,7 @@ const HeroesFilters = () => {
       return <h5 className="text-center mt-5">Фильтры не найдены</h5>;
     }
 
-    // Данные в json-файле я расширил классами и текстом
     return arr.map(({ name, className, label }) => {
-      // Используем библиотеку classnames и формируем классы динамически
       const btnClass = classNames("btn", className, {
         active: name === activeFilter,
       });
