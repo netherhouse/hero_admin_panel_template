@@ -5,6 +5,13 @@ export const fetchHeroes = (request) => (dispatch) => {
     .catch(() => dispatch(heroesFetchingError()));
 };
 
+export const fetchFilters = (request) => (dispatch) => {
+  dispatch(filterFetching());
+  request("http://localhost:3001/filters")
+    .then((data) => dispatch(filterFetched(data)))
+    .catch(() => dispatch(filterFetchingError()));
+};
+
 export const heroesFetching = () => {
   return {
     type: "HEROES_FETCHING",
