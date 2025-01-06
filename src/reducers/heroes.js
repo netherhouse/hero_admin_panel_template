@@ -12,27 +12,50 @@ const initialState = {
   heroes: [],
   heroesLoadingStatus: "idle",
 };
-
-const heroes = createReducer(initialState, (builder) => {
-  builder
-    .addCase(heroesFetching, (state) => {
+const heroes = createReducer(
+  initialState,
+  {
+    [heroesFetching]: (state) => {
       state.heroesLoadingStatus = "loading";
-    })
-    .addCase(heroesFetched, (state, action) => {
-      state.heroes = action.payload;
+    },
+    [heroesFetched]: (state, action) => {
       state.heroesLoadingStatus = "idle";
-    })
-    .addCase(heroesFetchingError, (state) => {
+      state.heroes = action.payload;
+    },
+    [heroesFetchingError]: (state) => {
       state.heroesLoadingStatus = "error";
-    })
-    .addCase(heroCreated, (state, action) => {
+    },
+    [heroCreated]: (state, action) => {
       state.heroes.push(action.payload);
-    })
-    .addCase(heroDeleted, (state, action) => {
+    },
+    [heroDeleted]: (state, action) => {
       state.heroes = state.heroes.filter((item) => item.id !== action.payload);
-    })
-    .addDefaultCase(() => {});
-});
+    },
+  },
+  [],
+  (state) => state
+);
+
+// const heroes = createReducer(initialState, (builder) => {
+//   builder
+//     .addCase(heroesFetching, (state) => {
+//       state.heroesLoadingStatus = "loading";
+//     })
+//     .addCase(heroesFetched, (state, action) => {
+//       state.heroes = action.payload;
+//       state.heroesLoadingStatus = "idle";
+//     })
+//     .addCase(heroesFetchingError, (state) => {
+//       state.heroesLoadingStatus = "error";
+//     })
+//     .addCase(heroCreated, (state, action) => {
+//       state.heroes.push(action.payload);
+//     })
+//     .addCase(heroDeleted, (state, action) => {
+//       state.heroes = state.heroes.filter((item) => item.id !== action.payload);
+//     })
+//     .addDefaultCase(() => {});
+// });
 
 // const heroes = (state = initialState, action) => {
 //   switch (action.type) {
