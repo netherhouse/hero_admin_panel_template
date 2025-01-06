@@ -1,3 +1,5 @@
+import { createAction } from "@reduxjs/toolkit";
+
 export const fetchHeroes = (request) => (dispatch) => {
   dispatch(heroesFetching());
   request("http://localhost:3001/heroes")
@@ -12,18 +14,19 @@ export const fetchFilters = (request) => (dispatch) => {
     .catch(() => dispatch(filterFetchingError()));
 };
 
-export const heroesFetching = () => {
-  return {
-    type: "HEROES_FETCHING",
-  };
-};
+// export const heroesFetching = () => {
+//   return {
+//     type: "HEROES_FETCHING",
+//   };
+// };
+export const heroesFetching = createAction("HEROES_FETCHING");
 
-export const heroesFetched = (heroes) => {
-  return {
-    type: "HEROES_FETCHED",
-    payload: heroes,
-  };
-};
+// export const heroesFetched = (heroes) => {
+//   return {
+//     type: "HEROES_FETCHED",
+//     payload: heroes,
+//   };
+// };
 
 export const heroesFetchingError = () => {
   return {
