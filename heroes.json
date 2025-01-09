@@ -17,30 +17,41 @@
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"
+    },
+    {
+      "id": "cd7aa6a7-a41e-43a5-85e5-462b3230581a",
+      "name": "Миша",
+      "description": "Кидаться камнями ",
+      "element": "earth"
     }
   ],
   "filters": [
     {
+      "id": "all",
       "name": "all",
       "label": "Все",
       "classNames": "btn-outline-dark"
     },
     {
+      "id": "fire",
       "name": "fire",
       "label": "Огонь",
       "classNames": "btn-danger"
     },
     {
+      "id": "water",
       "name": "water",
       "label": "Вода",
       "classNames": "btn-primary"
     },
     {
+      "id": "wind",
       "name": "wind",
       "label": "Ветер",
       "classNames": "btn-success"
     },
     {
+      "id": "earth",
       "name": "earth",
       "label": "Земля",
       "classNames": "btn-secondary"
