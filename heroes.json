@@ -17,12 +17,6 @@
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"
-    },
-    {
-      "id": "21bab34b-0841-483c-a97e-8cadec63c909",
-      "name": "Иван",
-      "description": "пукать",
-      "element": "wind"
     }
   ],
   "filters": [
