@@ -3,7 +3,7 @@ import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import { heroDeleted, fetchHeroes } from "./heroesSlice";
+import { heroDeleted, fetchHeroes, selectAll } from "./heroesSlice";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
 
@@ -13,8 +13,10 @@ import { createSelector } from "@reduxjs/toolkit";
 const HeroesList = () => {
   const filteredHeroesSelector = createSelector(
     (state) => state.filters.activeFilter,
-    (state) => state.heroes.heroes,
+    selectAll,
     (filter, heroes) => {
+      console.log(heroes);
+
       if (filter === "all") {
         console.log("render");
         return heroes;
@@ -33,13 +35,8 @@ const HeroesList = () => {
 
   useEffect(() => {
     dispatch(fetchHeroes());
-
-    // eslint-disable-next-line
   }, []);
-  // Задача для этого компонента:
-  // При клике на "крестик" идет удаление персонажа из общего состояния
-  // Усложненная задача:
-  // Удаление идет и с json файла при помощи метода DELETE
+
   const onDelete = useCallback(
     (id) => {
       // Удаление персонажа по его id
