@@ -2,6 +2,8 @@
 
 This project is a template for an admin panel to manage heroes using React, Redux, and Redux Toolkit. It features a user-friendly interface to view, filter, add, and delete heroes with asynchronous data fetching via a JSON server.
 
+![Demo Hero Admin Panel](../hero_admin_panel_template/public/demo_admin-panel.gif)
+
 ## Features
 
 - **Display Heroes**: Render a list of heroes with details such as name, description, and elemental attribute.
