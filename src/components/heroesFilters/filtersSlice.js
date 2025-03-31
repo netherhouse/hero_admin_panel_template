@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from "@reduxjs/toolkit";
-import { useHttp } from "../../hooks/http.hook";
+import { initialFilters } from "../../data/initialData";
 
 const filtersAdapter = createEntityAdapter();
 
@@ -12,10 +12,13 @@ const initialState = filtersAdapter.getInitialState({
   activeFilter: "all",
 });
 
-export const fetchFilters = createAsyncThunk("filters/fetchFilters", () => {
-  const { request } = useHttp();
-  return request("http://localhost:3001/filters");
-});
+export const fetchFilters = createAsyncThunk(
+  "filters/fetchFilters",
+  async () => {
+    // Simply return the initial filters instead of making an HTTP request
+    return initialFilters;
+  }
+);
 
 const filtersSlice = createSlice({
   name: "filters",
@@ -47,9 +50,4 @@ export default reducer;
 export const { selectAll } = filtersAdapter.getSelectors(
   (state) => state.filters
 );
-export const {
-  filtersFetched,
-  filtersFetching,
-  filtersFetchingError,
-  activeFilterChanged,
-} = actions;
+export const { activeFilterChanged } = actions;

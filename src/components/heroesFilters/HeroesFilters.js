@@ -1,4 +1,3 @@
-import { useHttp } from "../../hooks/http.hook";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
@@ -13,13 +12,10 @@ const HeroesFilters = () => {
   );
   const filters = selectAll(store.getState());
   const dispatch = useDispatch();
-  const { request } = useHttp();
 
   useEffect(() => {
-    dispatch(fetchFilters(request));
-
-    // eslint-disable-next-line
-  }, []);
+    dispatch(fetchFilters());
+  }, [dispatch]);
 
   if (filtersLoadingStatus === "loading") {
     return <Spinner />;
@@ -32,7 +28,7 @@ const HeroesFilters = () => {
       return <h5 className="text-center mt-5">Фильтры не найдены</h5>;
     }
 
-    return arr.map(({ name, className, label }) => {
+    return arr.map(({ name, classNames: className, label }) => {
       const btnClass = classNames("btn", className, {
         active: name === activeFilter,
       });
